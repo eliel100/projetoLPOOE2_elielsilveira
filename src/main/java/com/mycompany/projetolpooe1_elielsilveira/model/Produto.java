@@ -9,11 +9,11 @@ import java.util.List;
 @Table(name = "tb_produto")
 public class Produto implements Serializable{
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -44,7 +44,7 @@ public class Produto implements Serializable{
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(nullable = false, length = 100)
     private String nome;

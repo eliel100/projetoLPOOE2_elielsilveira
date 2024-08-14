@@ -2,9 +2,12 @@
 package com.mycompany.projetolpooe1_elielsilveira.model.dao;
 
 
+import com.mycompany.projetolpooe1_elielsilveira.model.Cliente;
+import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 
 /**
  *
@@ -16,7 +19,7 @@ public class PersistenciaJPA implements InterfacePersistencia{
     public EntityManager entity;
 
     public PersistenciaJPA() {
-        factory = Persistence.createEntityManagerFactory("pu_ProjetoLPOOE1_elielsilveira");
+        factory = Persistence.createEntityManagerFactory("pu_ProjetoLPOOE2_elielsilveira");
         entity = factory.createEntityManager();
     }
     
@@ -52,7 +55,12 @@ public class PersistenciaJPA implements InterfacePersistencia{
         entity.remove(o);
         entity.getTransaction().commit();
     }
-      
+    
+    
+      public List<Cliente> listarTodosClientes() {
+        TypedQuery<Cliente> query = entity.createQuery("SELECT c FROM Cliente c", Cliente.class);
+        return query.getResultList();
+    }
    
     
 }
