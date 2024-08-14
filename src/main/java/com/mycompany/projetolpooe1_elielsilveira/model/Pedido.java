@@ -6,6 +6,7 @@ package com.mycompany.projetolpooe1_elielsilveira.model;
  * @author telmo
  */
 import java.io.Serializable;
+import java.util.ArrayList;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +14,10 @@ import java.util.List;
 @Entity
 @Table(name = "tb_pedido")
 public class Pedido implements Serializable{
+    
+    public Pedido (){
+        produtos = new ArrayList<Produto>();
+    } 
 
     public Long getId() {
         return id;
