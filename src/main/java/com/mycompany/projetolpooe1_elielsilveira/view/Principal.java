@@ -18,6 +18,10 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
+        
+            setSize(800, 600); // Largura de 800 pixels e altura de 600 pixels
+            
+                setLocationRelativeTo(null);
     }
 
     /**
@@ -68,6 +72,7 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void gerenciador_pedidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gerenciador_pedidoActionPerformed
        g_pedidos dialogPedidos = new g_pedidos(this, true); // Instancia o JDialog g_clientes
        

@@ -4,6 +4,12 @@
  */
 package com.mycompany.projetolpooe1_elielsilveira.view;
 
+import com.mycompany.projetolpooe1_elielsilveira.model.Pedido;
+import com.mycompany.projetolpooe1_elielsilveira.model.Produto;
+import com.mycompany.projetolpooe1_elielsilveira.model.dao.PersistenciaJPA;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author spiec
@@ -13,6 +19,9 @@ public class g_pedidos extends javax.swing.JDialog {
     /**
      * Creates new form g_pedidos
      */
+    
+     private javax.swing.JTable tabelaPedidos;
+private javax.swing.JScrollPane jScrollPane1;
     public g_pedidos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -27,25 +36,213 @@ public class g_pedidos extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        Visualizar = new javax.swing.JButton();
+        Inserir = new javax.swing.JButton();
+        Remover = new javax.swing.JButton();
+        Editar = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        Visualizar.setText("Visualizar");
+        Visualizar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VisualizarActionPerformed(evt);
+            }
+        });
+
+        Inserir.setText("Inserir");
+        Inserir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                InserirActionPerformed(evt);
+            }
+        });
+
+        Remover.setText("Remover");
+        Remover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RemoverActionPerformed(evt);
+            }
+        });
+
+        Editar.setText("Editar");
+        Editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EditarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Visualizar)
+                .addGap(18, 18, 18)
+                .addComponent(Inserir)
+                .addGap(18, 18, 18)
+                .addComponent(Editar)
+                .addGap(18, 18, 18)
+                .addComponent(Remover)
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(113, 113, 113)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Visualizar)
+                    .addComponent(Inserir)
+                    .addComponent(Remover)
+                    .addComponent(Editar))
+                .addContainerGap(162, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void VisualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizarActionPerformed
+      try {
+    // Cria uma instância de PersistenciaJPA
+    PersistenciaJPA persistencia = new PersistenciaJPA();
+    
+    // Busca todos os pedidos
+    List<Pedido> pedidos = persistencia.entity.createQuery("SELECT p FROM Pedido p", Pedido.class).getResultList();
+
+    // Cria o modelo da tabela
+    DefaultTableModel model = new DefaultTableModel(
+        new Object [][] {},
+        new String [] { "ID", "Cliente", "Data",  "Produtos" }
+    );
+
+    // Adiciona cada pedido ao modelo da tabela
+    for (Pedido pedido : pedidos) {
+        // Concatena os nomes dos produtos em uma única String
+        StringBuilder produtosConcatenados = new StringBuilder();
+        for (Produto produto : pedido.getPedidoProdutos()) {  // Percorre diretamente a lista de produtos
+            produtosConcatenados.append(produto.getNome()).append(", ");
+        }
+        // Remove a última vírgula e espaço
+        if (produtosConcatenados.length() > 0) {
+            produtosConcatenados.setLength(produtosConcatenados.length() - 2);
+        }
+
+        // Adiciona a linha na tabela
+        model.addRow(new Object[]{
+            pedido.getId(),
+            pedido.getCliente().getNome(), // Supondo que o pedido tenha uma relação com a classe Cliente
+            pedido.getDataPedido(),
+            produtosConcatenados.toString()
+        });
+    }
+
+    // Cria a tabela e o JScrollPane
+    tabelaPedidos = new javax.swing.JTable(model);
+    jScrollPane1 = new javax.swing.JScrollPane(tabelaPedidos);
+
+    // Adiciona o JScrollPane ao layout
+    javax.swing.GroupLayout layout = (javax.swing.GroupLayout) getContentPane().getLayout();
+    layout.setHorizontalGroup(
+        layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        .addComponent(jScrollPane1)
+        .addGroup(layout.createSequentialGroup()
+            .addComponent(Visualizar)
+            .addGap(18, 18, 18)
+            .addComponent(Inserir)
+            .addGap(18, 18, 18)
+            .addComponent(Editar)
+            .addGap(18, 18, 18)
+            .addComponent(Remover))
+    );
+    layout.setVerticalGroup(
+        layout.createSequentialGroup()
+        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+            .addComponent(Visualizar)
+            .addComponent(Inserir)
+            .addComponent(Editar)
+            .addComponent(Remover))
+    );
+
+    pack(); // Ajusta o tamanho do JDialog após a adição da tabela
+    
+    System.out.println("Número de pedidos encontrados: " + pedidos.size());
+} catch (Exception e) {
+    e.printStackTrace();
+}
+
+
+
+    }//GEN-LAST:event_VisualizarActionPerformed
+
+    private void RemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RemoverActionPerformed
+        try {
+        int selectedRow = tabelaPedidos.getSelectedRow();
+        if (selectedRow >= 0) {
+            Long pedidoId = (Long) tabelaPedidos.getValueAt(selectedRow, 0); // Obtenha o ID do pedido da primeira coluna
+            
+            // Cria uma instância de PersistenciaJPA
+            PersistenciaJPA persistencia = new PersistenciaJPA();
+            
+            // Inicia uma transação
+            persistencia.entity.getTransaction().begin();
+            
+            // Busca o pedido pelo ID e remove
+            Pedido pedido = persistencia.entity.find(Pedido.class, pedidoId);
+            if (pedido != null) {
+                persistencia.entity.remove(pedido);
+            }
+            
+            // Comita a transação
+            persistencia.entity.getTransaction().commit();
+            
+            // Remove a linha da tabela
+            ((DefaultTableModel) tabelaPedidos.getModel()).removeRow(selectedRow);
+            
+            System.out.println("Pedido removido com sucesso: ID " + pedidoId);
+        } else {
+            System.out.println("Nenhum pedido selecionado.");
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+
+    }//GEN-LAST:event_RemoverActionPerformed
+
+    private void InserirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_InserirActionPerformed
+         InserirPedidoDialog dialog = new InserirPedidoDialog(this);
+    dialog.setVisible(true);
+
+    // Atualiza a tabela de pedidos após o diálogo ser fechado
+    atualizarTabelaPedidos();
+    }//GEN-LAST:event_InserirActionPerformed
+
+    private void EditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EditarActionPerformed
+
     /**
      * @param args the command line arguments
      */
+    
+    private void atualizarTabelaPedidos() {
+    try {
+        PersistenciaJPA persistencia = new PersistenciaJPA();
+        List<Pedido> pedidos = persistencia.entity.createQuery("SELECT p FROM Pedido p", Pedido.class).getResultList();
+
+        // Atualiza o modelo da tabela
+        DefaultTableModel model = (DefaultTableModel) tabelaPedidos.getModel();
+        model.setRowCount(0); // Limpa as linhas existentes
+
+        for (Pedido pedido : pedidos) {
+            model.addRow(new Object[]{pedido.getId(), pedido.getCliente().getNome(), pedido.getDataPedido()});
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -86,5 +283,9 @@ public class g_pedidos extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Editar;
+    private javax.swing.JButton Inserir;
+    private javax.swing.JButton Remover;
+    private javax.swing.JButton Visualizar;
     // End of variables declaration//GEN-END:variables
 }

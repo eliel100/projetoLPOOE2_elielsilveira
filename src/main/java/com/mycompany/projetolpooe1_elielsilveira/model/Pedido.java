@@ -47,6 +47,14 @@ public class Pedido implements Serializable{
     }
         // Getters e Setters
 
+    public List<Produto> getPedidoProdutos() {
+    return produtos;
+}
+    
+    public void setPedidoProdutos(List<Produto> pedidoProdutos) {
+        this.produtos = pedidoProdutos;
+    }
+    
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

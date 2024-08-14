@@ -40,7 +40,12 @@ public class Produto implements Serializable{
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
+    
     // Getters e Setters
+     @Override
+    public String toString() {
+        return nome; // Ajuste para o nome ou qualquer outro atributo que identifique o produto
+    }
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -40,6 +40,11 @@ public class Cliente implements Serializable {
     public void setPedidos(List<Pedido> pedidos) {
         this.pedidos = pedidos;
     }
+    
+    @Override
+    public String toString() {
+        return nome; // Ajuste para o nome ou qualquer outro atributo que identifique o cliente
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
